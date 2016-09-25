@@ -35,3 +35,21 @@ library(leaflet)
 leaflet(data = quakes[1:20, ]) %>% addTiles() %>%
   addMarkers(popup = ~sprintf("<b>lat:</b> %s, <b>long:</b> %s, <b>mag:</b> %s", lat, long, mag))
 ```
+
+## Everything is an object
+You can use environments as (hashed) data structures.
+
+```{r data structures}
+e = new.env(parent = emptyenv())
+e$name = "longhorse"
+e$put = function() print(e$name)
+e$put()
+e$name = "stefan"
+e$put()
+
+library(magrittr)
+values = sample(c("R", "Py"), 15, replace = T)
+lookup = c(R = "Aaahrr", Py = "Python")
+values
+lookup[values] %>% unname()
+```
