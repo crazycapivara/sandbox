@@ -22,3 +22,16 @@ f()
 lang = c("R", "Python", "Docker")
 sprintf("%s is cool", lang)
 ```
+
+## Leaflet ...
+
+```{r leaflet}
+# let's take a look at the quakes dataset ...
+head(quakes)
+
+# ... and put the first 20 rows to a leaflet map 
+library(leaflet)
+
+leaflet(data = quakes[1:20, ]) %>% addTiles() %>%
+  addMarkers(popup = ~sprintf("<b>lat:</b> %s, <b>long:</b> %s, <b>mag:</b> %s", lat, long, mag))
+```
