@@ -1,0 +1,24 @@
+---
+title: "Hands on R"
+author: "Stefan"
+date: "25 September 2016"
+output:
+  html_document:
+    theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Don't Panic
+
+This is where it all begins ...
+
+```{r startup}
+f = function() "R is cool!"
+f()
+
+lang = c("R", "Python", "Docker")
+sprintf("%s is cool", lang)
+```
