@@ -11,7 +11,7 @@
 
 
 
-<title>FOSSGIS 2017</title>
+<title>Basics</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -298,30 +298,99 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">FOSSGIS 2017</h1>
+<h1 class="title toc-ignore">Basics</h1>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#vector-aka-mother-of-all-data-structures">Vector (aka mother of all data structures)</a></li>
+<li><a href="#data-frame-aka-workhorse">data frame (aka workhorse)</a></li>
+<li><a href="#apply-family-or-how-to-loop">apply family or how to loop</a></li>
+</ul>
+</div>
 
-<div id="shine-on-r-aaaahrrr" class="section level2 big">
-<h2>Shine on R {Aaaahrrr}</h2>
-<div id="stefan-kuthe" class="section level3">
-<h3>Stefan Küthe</h3>
-</div>
-<div id="march-22-2017" class="section level3">
-<h3>March 22, 2017</h3>
-</div>
-</div>
-<div id="section" class="section level2">
-<h2></h2>
-<pre class="r"><code>library(lawn)
+<pre class="r"><code>&quot;R is not just a statistics package,
+  it&#39;s a flexible and powerful language&quot;</code></pre>
+<hr />
+<div id="vector-aka-mother-of-all-data-structures" class="section level2">
+<h2>Vector (aka mother of all data structures)</h2>
+<pre class="r"><code># Skalar?
+x &lt;- 5
 
-gr_point()</code></pre>
-<pre><code>## &lt;FeatureCollection&gt;
-##   Bounding box: -164.0 -55.5 144.5 88.4
-##   No. features: 10
-##   No. points: 20
-##   Properties: NULL</code></pre>
+# First element
+x[1]</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code># Everything is an object
+class(x)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>nm &lt;- c(&quot;Peter&quot;, &quot;Bender&quot;)
+nr &lt;- c(2, 4)
+
+paste(&quot;Hi&quot;, nm, &quot;your id is&quot;, nr)</code></pre>
+<pre><code>## [1] &quot;Hi Peter your id is 2&quot;  &quot;Hi Bender your id is 4&quot;</code></pre>
+<hr />
+</div>
+<div id="data-frame-aka-workhorse" class="section level2">
+<h2>data frame (aka workhorse)</h2>
+<pre class="r"><code>head(mtcars)</code></pre>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<pre class="r"><code># df[rows, columns]
+mtcars[mtcars$gear == 4, c(&quot;cyl&quot;, &quot;gear&quot;)]</code></pre>
+<pre><code>##                cyl gear
+## Mazda RX4        6    4
+## Mazda RX4 Wag    6    4
+## Datsun 710       4    4
+## Merc 240D        4    4
+## Merc 230         4    4
+## Merc 280         6    4
+## Merc 280C        6    4
+## Fiat 128         4    4
+## Honda Civic      4    4
+## Toyota Corolla   4    4
+## Fiat X1-9        4    4
+## Volvo 142E       4    4</code></pre>
+<hr />
+</div>
+<div id="apply-family-or-how-to-loop" class="section level2">
+<h2>apply family or how to loop</h2>
+<pre class="r"><code># extraordinary
+l &lt;- list()
+for(i in 1:4){
+  l[[i]] &lt;- sqrt(i)
+}
+l</code></pre>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 1.414214
+## 
+## [[3]]
+## [1] 1.732051
+## 
+## [[4]]
+## [1] 2</code></pre>
+<pre class="r"><code># apply family
+l &lt;- lapply(1:4, sqrt)
+l</code></pre>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [1] 1.414214
+## 
+## [[3]]
+## [1] 1.732051
+## 
+## [[4]]
+## [1] 2</code></pre>
 </div>
 
 

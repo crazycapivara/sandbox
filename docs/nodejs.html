@@ -11,9 +11,9 @@
 
 
 
-<title>FOSSGIS 2017</title>
+<title>R meets nodejs</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -22,6 +22,17 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="site_libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-0.7.7/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-0.7.7/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<link href="site_libs/leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
+<script src="site_libs/leaflet-label-0.2.2/leaflet.label.js"></script>
+<script src="site_libs/Proj4Leaflet-0.7.2/proj4-compressed.js"></script>
+<script src="site_libs/Proj4Leaflet-0.7.2/proj4leaflet.js"></script>
+<script src="site_libs/leaflet-binding-1.1.0/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.0.27/leaflet-providers.js"></script>
+<script src="site_libs/leaflet-providers-plugin-1.1.0/leaflet-providers-plugin.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -298,30 +309,72 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">FOSSGIS 2017</h1>
+<h1 class="title toc-ignore">R meets nodejs</h1>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#engine">Engine</a></li>
+<li><a href="#turfjs">turfjs</a></li>
+<li><a href="#mapshaper">mapshaper</a></li>
+</ul>
+</div>
 
-<div id="shine-on-r-aaaahrrr" class="section level2 big">
-<h2>Shine on R {Aaaahrrr}</h2>
-<div id="stefan-kuthe" class="section level3">
-<h3>Stefan Küthe</h3>
+<hr />
+<div id="engine" class="section level2">
+<h2>Engine</h2>
+<pre class="r"><code>library(V8)
+
+engine &lt;- v8()
+engine$eval(&quot;var x = 42&quot;)
+engine$get(&quot;x&quot;)</code></pre>
+<pre><code>## [1] 42</code></pre>
+<hr />
 </div>
-<div id="march-22-2017" class="section level3">
-<h3>March 22, 2017</h3>
-</div>
-</div>
-<div id="section" class="section level2">
-<h2></h2>
+<div id="turfjs" class="section level2">
+<h2>turfjs</h2>
 <pre class="r"><code>library(lawn)
 
-gr_point()</code></pre>
-<pre><code>## &lt;FeatureCollection&gt;
-##   Bounding box: -164.0 -55.5 144.5 88.4
-##   No. features: 10
-##   No. points: 20
+data &lt;- &#39;{
+ &quot;type&quot;: &quot;Feature&quot;,
+ &quot;properties&quot;: {},
+ &quot;geometry&quot;: {
+     &quot;type&quot;: &quot;Polygon&quot;,
+     &quot;coordinates&quot;: [[
+       [-112.072391,46.586591],
+       [-112.072391,46.61761],
+       [-112.028102,46.61761],
+       [-112.028102,46.586591],
+       [-112.072391,46.586591]
+     ]]
+   }
+}&#39;
+(b &lt;- lawn_buffer(data, 1, &quot;kilometers&quot;))</code></pre>
+<pre><code>## &lt;Feature&gt;
+##   Type: Polygon
+##   Bounding box: -112.1 46.6 -112.0 46.6
+##   No. points: 74
 ##   Properties: NULL</code></pre>
+<pre class="r"><code>class(b) &lt;- &quot;polygon&quot;
+
+view(list(b, data)) %&gt;%
+  addProviderTiles(&quot;CartoDB&quot;)</code></pre>
+<div id="htmlwidget-09f3272ff130f2d38bcc" style="width:576px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-09f3272ff130f2d38bcc">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addGeoJSON","args":[{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-112.0724,46.5776],[-112.0741,46.5778],[-112.0758,46.5783],[-112.0774,46.5791],[-112.0787,46.5802],[-112.0799,46.5816],[-112.0807,46.5832],[-112.0812,46.5848],[-112.0814,46.5866],[-112.0814,46.6176],[-112.0812,46.6194],[-112.0807,46.6211],[-112.0799,46.6226],[-112.0787,46.624],[-112.0774,46.6251],[-112.0758,46.6259],[-112.0741,46.6264],[-112.0724,46.6266],[-112.0281,46.6266],[-112.0263,46.6264],[-112.0247,46.6259],[-112.0231,46.6251],[-112.0217,46.624],[-112.0206,46.6226],[-112.0198,46.6211],[-112.0193,46.6194],[-112.0191,46.6176],[-112.0191,46.5866],[-112.0193,46.5848],[-112.0198,46.5832],[-112.0206,46.5816],[-112.0217,46.5802],[-112.0231,46.5791],[-112.0247,46.5783],[-112.0263,46.5778],[-112.0281,46.5776],[-112.0724,46.5776]]]}},{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[-112.0724,46.5866],[-112.0724,46.6176],[-112.0281,46.6176],[-112.0281,46.5866],[-112.0724,46.5866]]]}}]},null,null,{"lineCap":null,"lineJoin":null,"clickable":true,"pointerEvents":null,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"dashArray":null,"smoothFactor":1,"noClip":false}]},{"method":"addProviderTiles","args":["CartoDB",null,null,{"errorTileUrl":"","noWrap":false,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false}]}],"fitBounds":[46.5776,-112.0814,46.6266,-112.0191]},"evals":[],"jsHooks":[]}</script>
+<hr />
+</div>
+<div id="mapshaper" class="section level2">
+<h2>mapshaper</h2>
+<pre class="r"><code>library(rmapshaper)
+
+ls(&quot;package:rmapshaper&quot;)</code></pre>
+<pre><code>##  [1] &quot;apply_mapshaper_commands&quot; &quot;drop_null_geometries&quot;    
+##  [3] &quot;ms_clip&quot;                  &quot;ms_dissolve&quot;             
+##  [5] &quot;ms_erase&quot;                 &quot;ms_explode&quot;              
+##  [7] &quot;ms_filter_fields&quot;         &quot;ms_filter_islands&quot;       
+##  [9] &quot;ms_innerlines&quot;            &quot;ms_lines&quot;                
+## [11] &quot;ms_points&quot;                &quot;ms_simplify&quot;</code></pre>
 </div>
 
 

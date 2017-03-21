@@ -1,0 +1,27 @@
+.r{
+  font-size: 1.3em;
+}
+
+.big{
+  padding: 25px;
+  text-align: center;
+}
+
+.big h2{
+  font-size: 4em;
+}
+
+.main{
+  margin-top: 50px;
+}
+
+img{
+  display: block;
+  margin: auto;
+}
+
+.title{
+  text-align_: center;
+  color: green;
+  display_: none;
+}

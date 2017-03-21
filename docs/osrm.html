@@ -11,9 +11,9 @@
 
 
 
-<title>FOSSGIS 2017</title>
+<title>osrm</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -22,6 +22,17 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="site_libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-0.7.7/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-0.7.7/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<link href="site_libs/leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
+<script src="site_libs/leaflet-label-0.2.2/leaflet.label.js"></script>
+<script src="site_libs/Proj4Leaflet-0.7.2/proj4-compressed.js"></script>
+<script src="site_libs/Proj4Leaflet-0.7.2/proj4leaflet.js"></script>
+<script src="site_libs/leaflet-binding-1.1.0/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.0.27/leaflet-providers.js"></script>
+<script src="site_libs/leaflet-providers-plugin-1.1.0/leaflet-providers-plugin.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -298,31 +309,33 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">FOSSGIS 2017</h1>
+<h1 class="title toc-ignore">osrm</h1>
 
 </div>
 
 
-<div id="shine-on-r-aaaahrrr" class="section level2 big">
-<h2>Shine on R {Aaaahrrr}</h2>
-<div id="stefan-kuthe" class="section level3">
-<h3>Stefan Küthe</h3>
-</div>
-<div id="march-22-2017" class="section level3">
-<h3>March 22, 2017</h3>
-</div>
-</div>
-<div id="section" class="section level2">
-<h2></h2>
-<pre class="r"><code>library(lawn)
+<pre class="r"><code>airports[c(&quot;name&quot;, &quot;type&quot;)]</code></pre>
+<pre><code>## class       : SpatialPointsDataFrame 
+## features    : 2 
+## extent      : 8.785862, 10.00565, 53.05229, 53.632  (xmin, xmax, ymin, ymax)
+## coord. ref. : +proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0 
+## variables   : 2
+## names       :    name,  type 
+## min values  :  Bremen, major 
+## max values  : Hamburg, major</code></pre>
+<pre class="r"><code>library(osrm)
 
-gr_point()</code></pre>
-<pre><code>## &lt;FeatureCollection&gt;
-##   Bounding box: -164.0 -55.5 144.5 88.4
-##   No. features: 10
-##   No. points: 20
-##   Properties: NULL</code></pre>
-</div>
+route &lt;- osrmRoute(airports[1, ], airports[2, ], sp = TRUE)
+
+leaflet(width = &quot;100%&quot;) %&gt;% addProviderTiles(&quot;CartoDB&quot;) %&gt;%
+  addMarkers(data = airports, popup = ~ name) %&gt;%
+  addPolylines(data = route) %&gt;%
+  addControl(
+    sprintf(&quot;&lt;b&gt;Duration&lt;/b&gt;: %i min&quot;,
+            as.integer(route$duration))
+  )</code></pre>
+<div id="htmlwidget-c50b8b07391673dc895c" style="width:100%;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c50b8b07391673dc895c">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB",null,null,{"errorTileUrl":"","noWrap":false,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false}]},{"method":"addMarkers","args":[[53.052287104156,53.6320011640866],[8.7858617703132,10.005647830925],null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Bremen","Hamburg"],null,null,null,null,null,null]},{"method":"addPolylines","args":[[[[{"lng":[8.7864,8.79675,8.83366,8.85739,8.89398,8.94485,9.01048,9.09927,9.17813,9.24892,9.3372,9.40003,9.48296,9.60107,9.74441,9.85326,9.91461,9.92774,9.91887,9.92867,9.91532,9.91238,9.93394,9.89883,9.90202,9.92351,9.94688,9.95597,10.01044,10.00638],"lat":[53.05263,53.05673,53.04384,53.02737,53.03885,53.0273,53.05108,53.06054,53.08967,53.16821,53.22994,53.24215,53.28587,53.32806,53.36795,53.37201,53.40727,53.42445,53.44542,53.4618,53.47837,53.50712,53.53188,53.55151,53.56968,53.59457,53.59381,53.61167,53.62383,53.63203]}]]],null,null,{"lineCap":null,"lineJoin":null,"clickable":true,"pointerEvents":null,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":false,"fillColor":"#03F","fillOpacity":0.2,"dashArray":null,"smoothFactor":1,"noClip":false},null,null,null,null,null]},{"method":"addControl","args":["<b>Duration<\/b>: 90 min","topleft",null,"info legend"]}],"limits":{"lat":[53.0273,53.63203],"lng":[8.7858617703132,10.01044]}},"evals":[],"jsHooks":[]}</script>
 
 
 

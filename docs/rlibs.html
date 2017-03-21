@@ -11,7 +11,7 @@
 
 
 
-<title>FOSSGIS 2017</title>
+<title>cran</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -298,30 +298,42 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">FOSSGIS 2017</h1>
+<h1 class="title toc-ignore">cran</h1>
 
 </div>
 
 
-<div id="shine-on-r-aaaahrrr" class="section level2 big">
-<h2>Shine on R {Aaaahrrr}</h2>
-<div id="stefan-kuthe" class="section level3">
-<h3>Stefan Küthe</h3>
-</div>
-<div id="march-22-2017" class="section level3">
-<h3>March 22, 2017</h3>
-</div>
-</div>
-<div id="section" class="section level2">
-<h2></h2>
-<pre class="r"><code>library(lawn)
+<p><a href="https://cran.r-project.org" class="uri">https://cran.r-project.org</a></p>
+<p><img src="pix/rlibs.jpg"></p>
+<div id="spatial-packages" class="section level2">
+<h2>spatial packages</h2>
+<p>see also <a href="https://cran.r-project.org/web/views/Spatial.html" class="uri">https://cran.r-project.org/web/views/Spatial.html</a></p>
+<pre class="r"><code>library(sp)
+library(raster)
+library(rgeos)
+library(rgdal)
+library(gdalUtils)
+library(geosphere)
+library(ggmap)
+library(cartography)
+library(geojsonio)
 
-gr_point()</code></pre>
-<pre><code>## &lt;FeatureCollection&gt;
-##   Bounding box: -164.0 -55.5 144.5 88.4
-##   No. features: 10
-##   No. points: 20
-##   Properties: NULL</code></pre>
+# open source routing machine
+library(osrm)
+
+# htmlwidgets
+library(leaflet)
+
+# nodejs wrapper
+library(lawn) # turfjs
+library(rmapshaper)
+
+library(sf)
+
+# mapedit - proof of concept 
+devtools::install_github(&quot;bhaskarvk/leaflet.extras&quot;)
+devtools::install_github(&quot;r-spatial/mapedit&quot;)</code></pre>
+<p><a href="http://r-spatial.org" class="uri">http://r-spatial.org</a></p>
 </div>
 
 

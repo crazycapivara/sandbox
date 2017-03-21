@@ -11,7 +11,7 @@
 
 
 
-<title>FOSSGIS 2017</title>
+<title>simple features</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -298,31 +298,78 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">FOSSGIS 2017</h1>
+<h1 class="title toc-ignore">simple features</h1>
 
 </div>
 
 
-<div id="shine-on-r-aaaahrrr" class="section level2 big">
-<h2>Shine on R {Aaaahrrr}</h2>
-<div id="stefan-kuthe" class="section level3">
-<h3>Stefan Küthe</h3>
-</div>
-<div id="march-22-2017" class="section level3">
-<h3>March 22, 2017</h3>
-</div>
-</div>
-<div id="section" class="section level2">
-<h2></h2>
-<pre class="r"><code>library(lawn)
+<pre class="r"><code>library(sf)
 
-gr_point()</code></pre>
-<pre><code>## &lt;FeatureCollection&gt;
-##   Bounding box: -164.0 -55.5 144.5 88.4
-##   No. features: 10
-##   No. points: 20
-##   Properties: NULL</code></pre>
-</div>
+# overview
+ls(&quot;package:sf&quot;) %&gt;% .[grep(&quot;st_&quot;, .)]</code></pre>
+<pre><code>##  [1] &quot;st_agr&quot;                &quot;st_agr&lt;-&quot;             
+##  [3] &quot;st_area&quot;               &quot;st_as_binary&quot;         
+##  [5] &quot;st_as_grob&quot;            &quot;st_as_sf&quot;             
+##  [7] &quot;st_as_sfc&quot;             &quot;st_as_text&quot;           
+##  [9] &quot;st_bbox&quot;               &quot;st_boundary&quot;          
+## [11] &quot;st_buffer&quot;             &quot;st_cast&quot;              
+## [13] &quot;st_centroid&quot;           &quot;st_combine&quot;           
+## [15] &quot;st_contains&quot;           &quot;st_contains_properly&quot; 
+## [17] &quot;st_convex_hull&quot;        &quot;st_covered_by&quot;        
+## [19] &quot;st_covers&quot;             &quot;st_crosses&quot;           
+## [21] &quot;st_crs&quot;                &quot;st_crs&lt;-&quot;             
+## [23] &quot;st_difference&quot;         &quot;st_dimension&quot;         
+## [25] &quot;st_disjoint&quot;           &quot;st_distance&quot;          
+## [27] &quot;st_drivers&quot;            &quot;st_equals&quot;            
+## [29] &quot;st_equals_exact&quot;       &quot;st_geometry&quot;          
+## [31] &quot;st_geometry&lt;-&quot;         &quot;st_geometrycollection&quot;
+## [33] &quot;st_geometry_type&quot;      &quot;st_graticule&quot;         
+## [35] &quot;st_interpolate_aw&quot;     &quot;st_intersection&quot;      
+## [37] &quot;st_intersects&quot;         &quot;st_is&quot;                
+## [39] &quot;st_is_longlat&quot;         &quot;st_is_simple&quot;         
+## [41] &quot;st_is_valid&quot;           &quot;st_join&quot;              
+## [43] &quot;st_layers&quot;             &quot;st_length&quot;            
+## [45] &quot;st_linemerge&quot;          &quot;st_line_sample&quot;       
+## [47] &quot;st_linestring&quot;         &quot;st_list&quot;              
+## [49] &quot;st_makegrid&quot;           &quot;st_multilinestring&quot;   
+## [51] &quot;st_multipoint&quot;         &quot;st_multipolygon&quot;      
+## [53] &quot;st_overlaps&quot;           &quot;st_point&quot;             
+## [55] &quot;st_polygon&quot;            &quot;st_polygonize&quot;        
+## [57] &quot;st_precision&quot;          &quot;st_precision&lt;-&quot;       
+## [59] &quot;st_read&quot;               &quot;st_read_db&quot;           
+## [61] &quot;st_relate&quot;             &quot;st_segmentize&quot;        
+## [63] &quot;st_set_agr&quot;            &quot;st_set_crs&quot;           
+## [65] &quot;st_set_precision&quot;      &quot;st_sf&quot;                
+## [67] &quot;st_sfc&quot;                &quot;st_simplify&quot;          
+## [69] &quot;st_sym_difference&quot;     &quot;st_touches&quot;           
+## [71] &quot;st_transform&quot;          &quot;st_triangulate&quot;       
+## [73] &quot;st_union&quot;              &quot;st_viewport&quot;          
+## [75] &quot;st_voronoi&quot;            &quot;st_within&quot;            
+## [77] &quot;st_write&quot;              &quot;st_write_db&quot;          
+## [79] &quot;st_zm&quot;</code></pre>
+<pre class="r"><code># read data
+data &lt;- st_read(&quot;../FOSSGIS-workshop/data/ne_10m_airports/ne_10m_airports.shp&quot;)</code></pre>
+<pre><code>## Reading layer `ne_10m_airports&#39; from data source `/home/gabbo/coding/rosgeo-live/FOSSGIS-workshop/data/ne_10m_airports/ne_10m_airports.shp&#39; using driver `ESRI Shapefile&#39;
+## Simple feature collection with 891 features and 10 fields
+## geometry type:  POINT
+## dimension:      XY
+## bbox:           xmin: -175.1356 ymin: -53.78147 xmax: 179.1954 ymax: 78.24672
+## epsg (SRID):    4326
+## proj4string:    +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<pre class="r"><code>st_crs(data)</code></pre>
+<pre><code>## $epsg
+## [1] 4326
+## 
+## $proj4string
+## [1] &quot;+proj=longlat +datum=WGS84 +no_defs&quot;
+## 
+## attr(,&quot;class&quot;)
+## [1] &quot;crs&quot;</code></pre>
+<pre class="r"><code>st_bbox(data)</code></pre>
+<pre><code>##       xmin       ymin       xmax       ymax 
+## -175.13564  -53.78147  179.19544   78.24672</code></pre>
+<pre class="r"><code>dim(data)</code></pre>
+<pre><code>## [1] 891  11</code></pre>
 
 
 

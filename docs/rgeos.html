@@ -11,7 +11,7 @@
 
 
 
-<title>FOSSGIS 2017</title>
+<title>rgeos</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -298,31 +298,57 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">FOSSGIS 2017</h1>
+<h1 class="title toc-ignore">rgeos</h1>
 
 </div>
 
 
-<div id="shine-on-r-aaaahrrr" class="section level2 big">
-<h2>Shine on R {Aaaahrrr}</h2>
-<div id="stefan-kuthe" class="section level3">
-<h3>Stefan Küthe</h3>
-</div>
-<div id="march-22-2017" class="section level3">
-<h3>March 22, 2017</h3>
-</div>
-</div>
-<div id="section" class="section level2">
-<h2></h2>
-<pre class="r"><code>library(lawn)
+<pre class="r"><code>library(rgeos)
 
-gr_point()</code></pre>
-<pre><code>## &lt;FeatureCollection&gt;
-##   Bounding box: -164.0 -55.5 144.5 88.4
-##   No. features: 10
-##   No. points: 20
-##   Properties: NULL</code></pre>
-</div>
+ls(&quot;package:rgeos&quot;) %&gt;% .[grep(&quot;^g[A-Z]&quot;, .)]</code></pre>
+<pre><code>##  [1] &quot;gArea&quot;                  &quot;gBinarySTRtreeQuery&quot;   
+##  [3] &quot;gBoundary&quot;              &quot;gBuffer&quot;               
+##  [5] &quot;gCentroid&quot;              &quot;gContains&quot;             
+##  [7] &quot;gContainsProperly&quot;      &quot;gConvexHull&quot;           
+##  [9] &quot;gCoveredBy&quot;             &quot;gCovers&quot;               
+## [11] &quot;gCrosses&quot;               &quot;gDelaunayTriangulation&quot;
+## [13] &quot;gDifference&quot;            &quot;gDisjoint&quot;             
+## [15] &quot;gDistance&quot;              &quot;gEnvelope&quot;             
+## [17] &quot;gEquals&quot;                &quot;gEqualsExact&quot;          
+## [19] &quot;gInterpolate&quot;           &quot;gIntersection&quot;         
+## [21] &quot;gIntersects&quot;            &quot;gIsEmpty&quot;              
+## [23] &quot;gIsRing&quot;                &quot;gIsSimple&quot;             
+## [25] &quot;gIsValid&quot;               &quot;gLength&quot;               
+## [27] &quot;gLineMerge&quot;             &quot;gNearestPoints&quot;        
+## [29] &quot;gNode&quot;                  &quot;gOverlaps&quot;             
+## [31] &quot;gPointOnSurface&quot;        &quot;gPolygonize&quot;           
+## [33] &quot;gProject&quot;               &quot;gRelate&quot;               
+## [35] &quot;gSimplify&quot;              &quot;gSymdifference&quot;        
+## [37] &quot;gTouches&quot;               &quot;gUnarySTRtreeQuery&quot;    
+## [39] &quot;gUnaryUnion&quot;            &quot;gUnion&quot;                
+## [41] &quot;gUnionCascaded&quot;         &quot;gWithin&quot;               
+## [43] &quot;gWithinDistance&quot;</code></pre>
+<pre class="r"><code>class(sp_quakes)</code></pre>
+<pre><code>## [1] &quot;SpatialPointsDataFrame&quot;
+## attr(,&quot;package&quot;)
+## [1] &quot;sp&quot;</code></pre>
+<pre class="r"><code>ch &lt;- gConvexHull(sp_quakes)
+class(ch)</code></pre>
+<pre><code>## [1] &quot;SpatialPolygons&quot;
+## attr(,&quot;package&quot;)
+## [1] &quot;sp&quot;</code></pre>
+<pre class="r"><code>plot(sp_quakes, col = &quot;blue&quot;)
+plot(ch, add = TRUE)</code></pre>
+<p><img src="rgeos_files/figure-html/rgeos-1.png" width="576" /></p>
+<pre class="r"><code>africa &lt;- readOGR(&quot;../FOSSGIS-workshop/data/africa.js&quot;)</code></pre>
+<pre><code>## OGR data source with driver: GeoJSON 
+## Source: &quot;../FOSSGIS-workshop/data/africa.js&quot;, layer: &quot;OGRGeoJSON&quot;
+## with 54 features
+## It has 65 fields</code></pre>
+<pre class="r"><code>sp::spplot(africa, &quot;LABELRANK&quot;, scales = list(draw = TRUE))</code></pre>
+<p><img src="rgeos_files/figure-html/rgeos-2.png" width="576" /></p>
+<pre class="r"><code>gUnionCascaded(africa) %&gt;% plot(col = &quot;blue&quot;)</code></pre>
+<p><img src="rgeos_files/figure-html/rgeos-3.png" width="576" /></p>
 
 
 

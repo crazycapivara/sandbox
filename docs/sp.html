@@ -11,9 +11,9 @@
 
 
 
-<title>FOSSGIS 2017</title>
+<title>sp &amp; rgdal</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -22,6 +22,17 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="site_libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-0.7.7/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-0.7.7/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<link href="site_libs/leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
+<script src="site_libs/leaflet-label-0.2.2/leaflet.label.js"></script>
+<script src="site_libs/Proj4Leaflet-0.7.2/proj4-compressed.js"></script>
+<script src="site_libs/Proj4Leaflet-0.7.2/proj4leaflet.js"></script>
+<script src="site_libs/leaflet-binding-1.1.0/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.0.27/leaflet-providers.js"></script>
+<script src="site_libs/leaflet-providers-plugin-1.1.0/leaflet-providers-plugin.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -298,30 +309,79 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">FOSSGIS 2017</h1>
+<h1 class="title toc-ignore">sp &amp; rgdal</h1>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#read-data">read data</a></li>
+<li><a href="#sp-data-structures">sp data structures</a></li>
+<li><a href="#write-data">write data</a></li>
+</ul>
+</div>
 
-<div id="shine-on-r-aaaahrrr" class="section level2 big">
-<h2>Shine on R {Aaaahrrr}</h2>
-<div id="stefan-kuthe" class="section level3">
-<h3>Stefan Küthe</h3>
+<hr />
+<div id="read-data" class="section level2">
+<h2>read data</h2>
+<pre class="r"><code>rgdal::ogrListLayers(fn)</code></pre>
+<pre><code>## [1] &quot;ne_10m_airports&quot;
+## attr(,&quot;driver&quot;)
+## [1] &quot;ESRI Shapefile&quot;
+## attr(,&quot;nlayers&quot;)
+## [1] 1</code></pre>
+<pre class="r"><code>data &lt;- rgdal::readOGR(fn, layer = &quot;ne_10m_airports&quot;)</code></pre>
+<pre><code>## OGR data source with driver: ESRI Shapefile 
+## Source: &quot;../FOSSGIS-workshop/data/ne_10m_airports/ne_10m_airports.shp&quot;, layer: &quot;ne_10m_airports&quot;
+## with 891 features
+## It has 10 fields</code></pre>
+<hr />
 </div>
-<div id="march-22-2017" class="section level3">
-<h3>March 22, 2017</h3>
-</div>
-</div>
-<div id="section" class="section level2">
-<h2></h2>
-<pre class="r"><code>library(lawn)
+<div id="sp-data-structures" class="section level2">
+<h2>sp data structures</h2>
+<pre class="r"><code>my_quakes &lt;- quakes
+head(my_quakes)</code></pre>
+<pre><code>##      lat   long depth mag stations
+## 1 -20.42 181.62   562 4.8       41
+## 2 -20.62 181.03   650 4.2       15
+## 3 -26.00 184.10    42 5.4       43
+## 4 -17.97 181.66   626 4.1       19
+## 5 -20.42 181.96   649 4.0       11
+## 6 -19.68 184.31   195 4.0       12</code></pre>
+<pre class="r"><code>class(quakes)</code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>sp::coordinates(my_quakes) = ~ long + lat
+class(my_quakes)</code></pre>
+<pre><code>## [1] &quot;SpatialPointsDataFrame&quot;
+## attr(,&quot;package&quot;)
+## [1] &quot;sp&quot;</code></pre>
+<pre class="r"><code>my_quakes@bbox</code></pre>
+<pre><code>##         min    max
+## long 165.67 188.13
+## lat  -38.59 -10.72</code></pre>
+<pre class="r"><code>my_quakes@proj4string</code></pre>
+<pre><code>## CRS arguments: NA</code></pre>
+<pre class="r"><code>my_quakes@proj4string &lt;- sp::CRS(&quot;+proj=longlat +datum=WGS84&quot;)
 
-gr_point()</code></pre>
-<pre><code>## &lt;FeatureCollection&gt;
-##   Bounding box: -164.0 -55.5 144.5 88.4
-##   No. features: 10
-##   No. points: 20
-##   Properties: NULL</code></pre>
+library(leaflet)
+
+leaflet(width = &quot;100%&quot;) %&gt;% addProviderTiles(&quot;CartoDB&quot;) %&gt;%
+  addCircleMarkers(
+    data = my_quakes[1:20, ],
+    radius = ~ sqrt(mag) * 10
+  )</code></pre>
+<div id="htmlwidget-4792c983b0c4e12e8312" style="width:100%;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4792c983b0c4e12e8312">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB",null,null,{"errorTileUrl":"","noWrap":false,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false}]},{"method":"addCircleMarkers","args":[[-20.42,-20.62,-26,-17.97,-20.42,-19.68,-11.7,-28.11,-28.74,-17.47,-21.44,-12.26,-18.54,-21,-20.7,-15.94,-13.64,-17.83,-23.5,-22.63],[181.62,181.03,184.1,181.66,181.96,184.31,166.1,181.93,181.74,179.59,180.69,167,182.11,181.66,169.92,184.95,165.96,181.5,179.78,180.31],[21.9089023002066,20.4939015319192,23.2379000772445,20.2484567313166,20,20,21.9089023002066,20.976176963403,21.6794833886788,20.7364413533277,20.976176963403,21.4476105895272,20.976176963403,20.976176963403,24.6981780704569,20.7364413533277,24.4948974278318,21.2132034355964,20.976176963403,20.976176963403],null,null,{"lineCap":null,"lineJoin":null,"clickable":true,"pointerEvents":null,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"dashArray":null},null,null,null,null,null,null,null]}],"limits":{"lat":[-28.74,-11.7],"lng":[165.96,184.95]}},"evals":[],"jsHooks":[]}</script>
+<hr />
+</div>
+<div id="write-data" class="section level2">
+<h2>write data</h2>
+<pre class="r"><code>rgdal::writeOGR(
+  my_quakes,
+  &quot;../FOSSGIS-workshop/data/sp_quakes.geojson&quot;, 
+  layer = &quot;my_quakes&quot;,
+  driver = &quot;GeoJSON&quot;
+)</code></pre>
 </div>
 
 

@@ -11,7 +11,7 @@
 
 
 
-<title>FOSSGIS 2017</title>
+<title>pipe operator</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -298,30 +298,26 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">FOSSGIS 2017</h1>
+<h1 class="title toc-ignore">pipe operator</h1>
 
 </div>
 
 
-<div id="shine-on-r-aaaahrrr" class="section level2 big">
-<h2>Shine on R {Aaaahrrr}</h2>
-<div id="stefan-kuthe" class="section level3">
-<h3>Stefan Küthe</h3>
-</div>
-<div id="march-22-2017" class="section level3">
-<h3>March 22, 2017</h3>
-</div>
-</div>
 <div id="section" class="section level2">
-<h2></h2>
-<pre class="r"><code>library(lawn)
+<h2>%&gt;%</h2>
+<pre class="r"><code>map &lt;- leaflet() %&gt;% addTiles() %&gt;% addMarkers(data = quakes)
 
-gr_point()</code></pre>
-<pre><code>## &lt;FeatureCollection&gt;
-##   Bounding box: -164.0 -55.5 144.5 88.4
-##   No. features: 10
-##   No. points: 20
-##   Properties: NULL</code></pre>
+# would be in Python sth like
+leaflet().addTiles().addMarkers(data = quakes)</code></pre>
+<hr />
+</div>
+<div id="no-pipe" class="section level2">
+<h2>no-pipe</h2>
+<pre class="r"><code>map &lt;- leaflet()
+map &lt;- addTiles(map)
+map &lt;- addMarkers(map, data = quakes)
+
+map &lt;- addMarkers(addTiles(leaflet()), data = quakes)</code></pre>
 </div>
 
 

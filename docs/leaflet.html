@@ -11,9 +11,9 @@
 
 
 
-<title>FOSSGIS 2017</title>
+<title>leaflet</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -22,6 +22,22 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="site_libs/htmlwidgets-0.8/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-0.7.7/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-0.7.7/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<link href="site_libs/leaflet-label-0.2.2/leaflet.label.css" rel="stylesheet" />
+<script src="site_libs/leaflet-label-0.2.2/leaflet.label.js"></script>
+<script src="site_libs/Proj4Leaflet-0.7.2/proj4-compressed.js"></script>
+<script src="site_libs/Proj4Leaflet-0.7.2/proj4leaflet.js"></script>
+<script src="site_libs/leaflet-binding-1.1.0/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.0.27/leaflet-providers.js"></script>
+<script src="site_libs/leaflet-providers-plugin-1.1.0/leaflet-providers-plugin.js"></script>
+<link href="site_libs/leaflet-measure-2.0.2/leaflet-measure.css" rel="stylesheet" />
+<script src="site_libs/leaflet-measure-2.0.2/leaflet-measure.min.js"></script>
+<link href="site_libs/leaflet-minimap-3.3.1/Control.MiniMap.min.css" rel="stylesheet" />
+<script src="site_libs/leaflet-minimap-3.3.1/Control.MiniMap.min.js"></script>
+<script src="site_libs/leaflet-minimap-3.3.1/Minimap-binding.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -298,30 +314,62 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">FOSSGIS 2017</h1>
+<h1 class="title toc-ignore">leaflet</h1>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#add-functions---overview"><strong>add</strong> functions - Overview</a></li>
+<li><a href="#add-measure-and-mini-map">add measure and mini map</a></li>
+<li><a href="#mapedit">mapedit</a></li>
+</ul>
+</div>
 
-<div id="shine-on-r-aaaahrrr" class="section level2 big">
-<h2>Shine on R {Aaaahrrr}</h2>
-<div id="stefan-kuthe" class="section level3">
-<h3>Stefan Küthe</h3>
-</div>
-<div id="march-22-2017" class="section level3">
-<h3>March 22, 2017</h3>
-</div>
-</div>
-<div id="section" class="section level2">
-<h2></h2>
-<pre class="r"><code>library(lawn)
+<hr />
+<div id="add-functions---overview" class="section level2">
+<h2><strong>add</strong> functions - Overview</h2>
+<pre class="r"><code>library(leaflet)
 
-gr_point()</code></pre>
-<pre><code>## &lt;FeatureCollection&gt;
-##   Bounding box: -164.0 -55.5 144.5 88.4
-##   No. features: 10
-##   No. points: 20
-##   Properties: NULL</code></pre>
+ls(&quot;package:leaflet&quot;) %&gt;% .[grep(&quot;^add&quot;, .)]</code></pre>
+<pre><code>##  [1] &quot;addAwesomeMarkers&quot;   &quot;addCircleMarkers&quot;    &quot;addCircles&quot;         
+##  [4] &quot;addControl&quot;          &quot;addEasyButton&quot;       &quot;addEasyButtonBar&quot;   
+##  [7] &quot;addGeoJSON&quot;          &quot;addGraticule&quot;        &quot;addLabelOnlyMarkers&quot;
+## [10] &quot;addLayersControl&quot;    &quot;addLegend&quot;           &quot;addMarkers&quot;         
+## [13] &quot;addMeasure&quot;          &quot;addMiniMap&quot;          &quot;addPolygons&quot;        
+## [16] &quot;addPolylines&quot;        &quot;addPopups&quot;           &quot;addProviderTiles&quot;   
+## [19] &quot;addRasterImage&quot;      &quot;addRectangles&quot;       &quot;addScaleBar&quot;        
+## [22] &quot;addSimpleGraticule&quot;  &quot;addTerminator&quot;       &quot;addTiles&quot;           
+## [25] &quot;addTopoJSON&quot;         &quot;addWMSTiles&quot;</code></pre>
+<hr />
+</div>
+<div id="add-measure-and-mini-map" class="section level2">
+<h2>add measure and mini map</h2>
+<pre class="r"><code>leaflet(width = &quot;100%&quot;) %&gt;% addProviderTiles(&quot;CartoDB&quot;) %&gt;%
+  addMarkers(data = airports, popup = ~ name) %&gt;%
+  addMeasure(primaryLengthUnit = &quot;kilometers&quot;) %&gt;%
+  addMiniMap()</code></pre>
+<div id="htmlwidget-a416df87a31d42cf9d13" style="width:100%;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a416df87a31d42cf9d13">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["CartoDB",null,null,{"errorTileUrl":"","noWrap":false,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false}]},{"method":"addMarkers","args":[[53.052287104156,53.6320011640866],[8.7858617703132,10.005647830925],null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Bremen","Hamburg"],null,null,null,null,null,null]},{"method":"addMeasure","args":[{"position":"topright","primaryLengthUnit":"kilometers","primaryAreaUnit":"acres","activeColor":"#ABE67E","completedColor":"#C8F2BE","popupOptions":{"className":"leaflet-measure-resultpopup","autoPanPadding":[10,10]},"captureZIndex":10000,"localization":"en","decPoint":".","thousandsSep":","}]},{"method":"addMiniMap","args":[null,null,"bottomright",150,150,19,19,-5,false,false,false,false,false,false,{"color":"#ff7800","weight":1,"clickable":false},{"color":"#000000","weight":1,"clickable":false,"opacity":0,"fillOpacity":0},{"hideText":"Hide MiniMap","showText":"Show MiniMap"},[]]}],"limits":{"lat":[53.052287104156,53.6320011640866],"lng":[8.7858617703132,10.005647830925]}},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>sp::spDists(airports)</code></pre>
+<pre><code>##          [,1]     [,2]
+## [1,]   0.0000 103.7433
+## [2,] 103.7433   0.0000</code></pre>
+<p><a href="https://rstudio.github.io/leaflet/">rleaflet tutorial</a></p>
+<hr />
+</div>
+<div id="mapedit" class="section level2">
+<h2>mapedit</h2>
+<pre class="r"><code>devtools::install_github(&quot;bhaskarvk/leaflet.extras&quot;)
+devtools::install_github(&quot;r-spatial/mapedit&quot;)
+
+library(leaflet)
+library(mapedit)
+
+what_we_created &lt;- leaflet() %&gt;%
+  addTiles() %&gt;%
+  edit_map()</code></pre>
+<p><a href="http://r-spatial.org/r/2017/01/30/mapedit_intro.html">mapedit</a></p>
 </div>
 
 
